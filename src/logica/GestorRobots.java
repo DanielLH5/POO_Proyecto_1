@@ -22,6 +22,25 @@ public class GestorRobots {
     Asigna un conjunto aleatorio de tareas (no modificable después)
     Retorna boolean indicando si la creación fue exitosa
     */
+    public boolean crearRobotIndividual(String idProcesador, int nivelBateria) {
+        // Verificar si ya existe un robot con ese ID
+        if (buscarRobot(idProcesador) != null) {
+            System.out.println("Error: Ya existe un robot con el ID " + idProcesador);
+            return false;
+        }
+
+        // Validar nivel de batería
+        if (nivelBateria < 0 || nivelBateria > 100) {
+            System.out.println("Error: El nivel de batería debe estar entre 0 y 100");
+            return false;
+        }
+
+        // Crear y agregar el robot
+        Robot nuevoRobot = new Robot(idProcesador, nivelBateria);
+        robots.add(nuevoRobot);
+        System.out.println("Robot creado exitosamente: " + nuevoRobot);
+        return true;
+    }
 
     /*
     crearRobotsBloque(int cantidad){}
@@ -30,12 +49,41 @@ public class GestorRobots {
     Asigna tareas aleatorias a cada robot
     Retorna boolean indicando si la creación fue exitosa
     */
+    public boolean crearRobotsBloque(int cantidad) {
+        if (cantidad <= 0) {
+            System.out.println("Error: La cantidad debe ser mayor a 0");
+            return false;
+        }
+
+        Random random = new Random();
+        int creadosExitosamente = 0;
+
+        for (int i = 0; i < cantidad; i++) {
+            String idProcesador = "ROB" + String.format("%04d", robots.size() + 1);
+            int nivelBateria = 20 + random.nextInt(81); // 20-100%
+
+            Robot nuevoRobot = new Robot(idProcesador, nivelBateria);
+            robots.add(nuevoRobot);
+            creadosExitosamente++;
+        }
+
+        System.out.println("Se crearon " + creadosExitosamente + " robots.");
+        return creadosExitosamente == cantidad;
+    }
 
     /*
     buscarRobot(String idProcesador){}
     Busca un robot por su ID de procesador
     Retorna el Robot encontrado o null si no existe
     */
+    public Robot buscarRobot(String idProcesador) {
+        for (Robot robot : robots) {
+            if (robot.getIdProcesador().equals(idProcesador)) {
+                return robot;
+            }
+        }
+        return null;
+    }
 
     /*
     actualizarBateriaRobot(String idProcesador, int nuevaBateria){}
@@ -43,6 +91,22 @@ public class GestorRobots {
     No puede exceder 100% ni ser menor a 0%
     Retorna boolean indicando si fue exitosa la actualización
     */
+    public boolean actualizarBateriaRobot(String idProcesador, int nuevaBateria) {
+        Robot robot = buscarRobot(idProcesador);
+        if (robot == null) {
+            System.out.println("Error: No se encontró el robot con ID " + idProcesador);
+            return false;
+        }
+
+        if (nuevaBateria < 0 || nuevaBateria > 100) {
+            System.out.println("Error: El nivel de batería debe estar entre 0 y 100");
+            return false;
+        }
+
+        robot.setNivelBateria(nuevaBateria);
+        System.out.println("Batería del robot " + idProcesador + " actualizada a " + nuevaBateria + "%");
+        return true;
+    }
 
     /*
     eliminarRobot(String idProcesador){}
