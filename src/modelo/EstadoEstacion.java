@@ -20,19 +20,4 @@ public enum EstadoEstacion {
         return descripcion;
     }
 
-    /*
-    MÉTODOS ADICIONALES QUE PODRÍAS NECESITAR:
-
-    isOperativa(){}
-    Verifica si la estación puede atender dispositivos
-    Retorna boolean (this == DISPONIBLE)
-
-    fromString(String texto){}
-    Convierte un texto en el enum correspondiente
-    Útil para configuraciones del administrador
-
-    getEstadosCriticos(){}
-    Retorna lista de estados que impiden el funcionamiento
-    Para alertas del dashboard
-    */
 }

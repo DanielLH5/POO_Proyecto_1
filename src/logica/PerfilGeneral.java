@@ -12,11 +12,11 @@ public class PerfilGeneral {
     private List<GestorEstaciones> gEstaciones;
 
     // Referencias a los otros perfiles para acceder a los datos
-    private PerfilAdministrador perfilAdmin;
-    private PerfilOperador perfilOperador;
+    private PerfilAdministrativo perfilAdmin;
+    private PerfilOperativo perfilOperativo;
 
     // Constructor modificado para recibir los otros perfiles
-    public PerfilGeneral(PerfilAdministrador perfilAdmin, PerfilOperador perfilOperador) {
+    public PerfilGeneral(PerfilAdministrativo perfilAdmin, PerfilOperativo perfilOperativo) {
         this.gDrones = new ArrayList<GestorDrones>();
         this.gCiudadanos = new ArrayList<GestorCiudadanos>();
         this.gEdificios = new ArrayList<GestorEdificios>();
@@ -24,7 +24,7 @@ public class PerfilGeneral {
         this.gEstaciones = new ArrayList<GestorEstaciones>();
 
         this.perfilAdmin = perfilAdmin;
-        this.perfilOperador = perfilOperador;
+        this.perfilOperativo = perfilOperativo;
     }
 
     /*
@@ -194,11 +194,11 @@ public class PerfilGeneral {
         return gEstaciones;
     }
 
-    public PerfilAdministrador getPerfilAdmin() {
+    public PerfilAdministrativo getPerfilAdmin() {
         return perfilAdmin;
     }
 
-    public PerfilOperador getPerfilOperativo() {
-        return perfilOperador;
+    public PerfilOperativo getPerfilOperativo() {
+        return perfilOperativo;
     }
 }

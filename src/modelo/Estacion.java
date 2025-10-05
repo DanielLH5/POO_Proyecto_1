@@ -1,6 +1,5 @@
 package modelo;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,13 +86,6 @@ public class Estacion {
     Agrega el robot a la lista de cargando
     Retorna boolean indicando si fue exitosa la operación
     */
-    public boolean atenderRobot(Robot robot) {
-        if (estaDisponible() && tieneCapacidadDisponible()) {
-            robotsCargando.add(robot);
-            return true;
-        }
-        return false;
-    }
 
     /*
     atenderDrone(Drone drone){}
@@ -103,37 +95,12 @@ public class Estacion {
     Retorna boolean indicando si fue exitosa la operación
     */
 
-    public boolean atenderDrone(Dron drone) {
-        if (estaDisponible() && tieneCapacidadDisponible()) {
-            dronesCargando.add(drone);
-            return true;
-        }
-        return false;
-    }
-
     /*
     finalizarRecargaRobot(Robot robot){}
     Finaliza la recarga de un robot y lo remueve de la lista
     Registra la recarga en el historial con fecha/hora
     Retorna boolean indicando si fue exitosa la operación
     */
-
-    public boolean finalizarRecargaRobot(Robot robot) {
-        if (robotsCargando.remove(robot)) {
-            int i = 100 - (robot.getNivelBateria());
-            RegistroRecarga registro = new RegistroRecarga(
-                    robot.getIdProcesador(),                      // idDispositivo
-                    "ROBOT",                                      // tipoDispositivo
-                    LocalDateTime.now(),                          // fechaHora
-                    robot.getNivelBateria(),                      // nivelBateriaInicial
-                    100                                           // nivelBateriaFinal
-            );
-            robot.setNivelBateria(100);
-            historialRecargas.add(registro);
-            return true;
-        }
-        return false;
-    }
 
     /*
     finalizarRecargaDrone(Drone drone){}
@@ -142,30 +109,11 @@ public class Estacion {
     Retorna boolean indicando si fue exitosa la operación
     */
 
-    public boolean finalizarRecargaDrone(Dron drone) {
-        if (dronesCargando.remove(drone)) {
-            RegistroRecarga registro = new RegistroRecarga(
-                    drone.getIdProcesador(),            // idDispositivo
-                    "DRONE",                            // tipoDispositivo
-                    LocalDateTime.now(),                // fechaHora
-                    drone.getNivelBateria(),            // nivelEnergiaInicial
-                    100                                 // nivelEnergiaFinal
-            );
-            historialRecargas.add(registro);
-            return true;
-        }
-        return false;
-    }
-
     /*
     tieneCapacidadDisponible(){}
     Verifica si la estación tiene capacidad para atender más dispositivos
     Retorna boolean - (robotsCargando + dronesCargando) < capacidadMaxima
     */
-
-    public boolean tieneCapacidadDisponible() {
-        return getCantidadDispositivosAtendiendo() < capacidadMaxima;
-    }
 
     /*
     getCantidadDispositivosAtendiendo(){}
@@ -173,20 +121,11 @@ public class Estacion {
     Calcula: robotsCargando.size() + dronesCargando.size()
     */
 
-    public int getCantidadDispositivosAtendiendo() {
-        return robotsCargando.size() + dronesCargando.size();
-    }
-
     /*
     getPorcentajeOcupacion(){}
     Calcula el porcentaje de ocupación actual de la estación
     Retorna double (dispositivosAtendiendo / capacidadMaxima * 100)
     */
-
-    public double getPorcentajeOcupacion() {
-        if (capacidadMaxima == 0) return 0.0;
-        return (getCantidadDispositivosAtendiendo() / (double) capacidadMaxima) * 100;
-    }
 
     /*
     estaDisponible(){}
@@ -194,19 +133,11 @@ public class Estacion {
     Retorna boolean (estado == DISPONIBLE)
     */
 
-    public boolean estaDisponible() {
-        return estado == EstadoEstacion.DISPONIBLE;
-    }
-
     /*
     getTotalRecargasAtendidas(){}
     Retorna el total de recargas atendidas (tamaño del historial)
     Para estadísticas del dashboard
     */
-
-    public int getTotalRecargasAtendidas() {
-        return historialRecargas.size();
-    }
 
     /*
     puedeAtenderRobot(Robot robot, int umbralMinimo){}
@@ -214,23 +145,11 @@ public class Estacion {
     (estado disponible, capacidad, y robot necesita recarga)
     */
 
-    public boolean puedeAtenderRobot(Robot robot, int umbralMinimo) {
-        return estaDisponible() &&
-                tieneCapacidadDisponible() &&
-                robot.getNivelBateria() < umbralMinimo;
-    }
-
     /*
     puedeAtenderDrone(Drone drone, int umbralMinimo){}
     Verifica si puede atender un drone específico
     (estado disponible, capacidad, y drone necesita recarga)
     */
-
-    public boolean puedeAtenderDrone(Dron drone, int umbralMinimo) {
-        return estaDisponible() &&
-                tieneCapacidadDisponible() &&
-                drone.getNivelBateria() < umbralMinimo;
-    }
 
     //toString
     @Override

@@ -79,25 +79,11 @@ public class Dron {
     Retorna boolean indicando si pudo patrullar
     */
 
-    public boolean realizarPatrullaje() {
-        if (nivelBateria >= 25 && !enAlerta) {
-            enPatrullaje = true;
-            nivelBateria -= 25;
-            return true;
-        }
-        return false;
-    }
-
     /*
     finalizarPatrullaje(){}
     Finaliza el patrullaje actual
     Actualiza el estado y las horas de vuelo disponibles
     */
-
-    public void finalizarPatrullaje() {
-        enPatrullaje = false;
-        horasVueloDisponible = nivelBateria / 25;
-    }
 
     /*
     detectarAnomalia(){}
@@ -106,35 +92,11 @@ public class Dron {
     Retorna el ReporteAnomalia generado (o null si no detectó nada)
     */
 
-    public ReporteAnomalia detectarAnomalia() {
-        if (!enPatrullaje) return null;
-
-        Random random = new Random();
-        boolean hayAnomalia = random.nextBoolean(); // 50% probabilidad
-
-        if (hayAnomalia) {
-            Evento[] eventos = Evento.values();
-            Evento eventoSeleccionado = eventos[random.nextInt(eventos.length)];
-
-            ReporteAnomalia reporte = new ReporteAnomalia(
-                    eventoSeleccionado,
-                    LocalDateTime.now(),
-                    idProcesador);
-            historialReportes.add(reporte);
-            return reporte;
-        }
-        return null;
-    }
-
     /*
     necesitaRecarga(int umbralMinimo){}
     Verifica si el drone necesita recarga urgente
     Retorna boolean (nivelBateria < umbralMinimo)
     */
-
-    public boolean necesitaRecarga(int umbralMinimo) {
-        return nivelBateria < umbralMinimo;
-    }
 
     /*
     recargarBateria(int cantidad){}
@@ -143,20 +105,10 @@ public class Dron {
     Actualiza las horas de vuelo disponibles (batería / 25)
     */
 
-    public void recargarBateria(int cantidad) {
-        nivelBateria = Math.min(nivelBateria + cantidad, 100);
-        horasVueloDisponible = nivelBateria / 25;
-    }
-
     /*
     recargarCompleto(){}
     Recarga la batería al 100% y actualiza horas de vuelo a 4
     */
-
-    public void recargarCompleto() {
-        nivelBateria = 100;
-        horasVueloDisponible = 4;
-    }
 
     /*
     estaOperativo(){}
@@ -164,20 +116,11 @@ public class Dron {
     Retorna boolean (batería > 0 y no en alerta crítica)
     */
 
-    public boolean estaOperativo() {
-        return nivelBateria > 0 && !enAlerta;
-    }
-
     /*
     getHorasVueloDisponible(){}
     Calcula las horas de vuelo disponibles basado en la batería actual
     Retorna int (nivelBateria / 25)
     */
-
-    public int calcularHorasVueloDisponible() {
-        return nivelBateria / 25;
-    }
-
 
     /*
     getReportesRecientes(){}
@@ -185,35 +128,16 @@ public class Dron {
     Para estadísticas del dashboard
     */
 
-    public List<ReporteAnomalia> getReportesRecientes() {
-        List<ReporteAnomalia> recientes = new ArrayList<>();
-        LocalDateTime hace24Horas = LocalDateTime.now().minusHours(24);
-        for (ReporteAnomalia r : historialReportes) {
-            if (r.getFechaHora().isAfter(hace24Horas)) {
-                recientes.add(r);
-            }
-        }
-        return recientes;
-    }
-
     /*
     getTotalReportes(){}
     Retorna el total de reportes generados por este drone
     */
-
-    public int getTotalReportes() {
-        return historialReportes.size();
-    }
 
     /*
     verificarEstadoAlerta(int umbralMinimo){}
     Verifica y actualiza el estado de alerta del drone
     Si batería < umbralMinimo, activa la alerta
     */
-
-    public void verificarEstadoAlerta(int umbralMinimo) {
-        enAlerta = nivelBateria < umbralMinimo;
-    }
 
     // toString
     @Override

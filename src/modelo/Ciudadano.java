@@ -7,11 +7,11 @@ public class Ciudadano {
     //Atributos
     private String id;
     private String nombre;
-    private Edificio edificio;
+    private String edificio;
     private List<Robot> robotsAsistentes;
 
     //Constructor
-    public Ciudadano(String id, String nombre, Edificio edificio) {
+    public Ciudadano(String id, String nombre, String edificio) {
         this.id = id;
         this.nombre = nombre;
         this.edificio = edificio;
@@ -35,11 +35,11 @@ public class Ciudadano {
         this.nombre = nombre;
     }
 
-    public Edificio getEdificio() {
+    public String getEdificio() {
         return edificio;
     }
 
-    public void setEdificio(Edificio edificio) {
+    public void setEdificio(String edificio) {
         this.edificio = edificio;
     }
 
@@ -47,9 +47,17 @@ public class Ciudadano {
         return new ArrayList<>(robotsAsistentes); // Devuelve una copia para evitar modificación externa
     }
 
-    //Metodo para agregar un robot asistente
-    public void agregarRobotAsistente(Robot robot) {
-        this.robotsAsistentes.add(robot);
+    public boolean agregarRobotAsistente(Robot robot) {
+        for (Robot robotsExistentes : robotsAsistentes) {
+            if (robotsExistentes.getIdProcesador().equals(robot.getIdProcesador())) {
+                System.out.println("Error: El robot con ID " + robot.getIdProcesador() + " ya está asignado a este ciudadano");
+                return false;
+            }
+        }
+
+        robotsAsistentes.add(robot);
+        System.out.println("Robot " + robot.getIdProcesador() + " agregado al ciudadano " + this.nombre);
+        return true;
     }
 
     //Metodo para eliminar un robot asistente

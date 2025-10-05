@@ -14,12 +14,76 @@ public class GestorEdificios {
         edificios = new ArrayList<>();
     }
 
-    /*
-    crearEdificios(int cantidad){}
-    Crea entre 3 y 10 edificios inteligentes con datos aleatorios o definidos
-    Asigna ID único, nombre, ubicación (calle-avenida) y capacidad máxima diferente para cada uno
-    Retorna boolean indicando si la creación fue exitosa
-    */
+    public boolean crearEdificios(String id, String nombre, String ubicacion, int capacidad) {
+        for (Edificio edificio : edificios) {
+            if (edificio.getId().equals(id)) {
+                System.out.println("Error: Ya existe un edificio con ID: " + id);
+                return false;
+            }
+        }
+
+        Edificio nuevoEdificio = new Edificio(id, nombre, ubicacion, capacidad);
+        edificios.add(nuevoEdificio);
+        System.out.println("Edificio creado exitosamente: " + nombre);
+        return true;
+    }
+
+    public String obtenerListaEdificios() {
+        if (edificios.isEmpty()) {
+            return "No hay edificios registrados en el sistema.";
+        }
+
+        StringBuilder lista = new StringBuilder();
+        lista.append("=== LISTA DE EDIFICIOS ===\n\n");
+        lista.append(String.format("%-8s %-20s %-20s %-10s\n",
+                "ID", "NOMBRE", "UBICACIÓN", "CAPACIDAD"));
+        lista.append("----------------------------------------------------------------\n");
+
+        for (Edificio edificio : edificios) {
+            lista.append(String.format("%-8s %-20s %-20s %-10d\n",
+                    edificio.getId(),
+                    edificio.getNombre(),
+                    edificio.getUbicacion(),
+                    edificio.getCapacidadMaxima()));
+        }
+
+        lista.append("\nTotal de edificios: ").append(edificios.size());
+        return lista.toString();
+    }
+
+    public boolean verificarCapAcidadEdificio(String id, int cantidad) {
+        for (Edificio edificio : edificios) {
+            if (edificio.getId().equals(id)) {
+                return edificio.getCapacidadMaxima() >= cantidad;
+            }
+        }return false;
+    }
+
+    public boolean disminuirCapacidadEdificio(String id, int cantidad) {
+        for (Edificio edificio : edificios) {
+            if (edificio.getId().equals(id)) {
+                int cantidadNueva = edificio.getCapacidadMaxima() - cantidad;
+                edificio.setCapacidadMaxima(cantidadNueva);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removerCiudadano(Ciudadano ciudadano) {
+        String idEdificio = ciudadano.getEdificio();
+        for (Edificio edificio : edificios) {
+            if (edificio.getId().equals(idEdificio)) {
+                int nuevaCapacidad = edificio.getCapacidadMaxima() + 1;
+                edificio.setCapacidadMaxima(nuevaCapacidad);
+                return true;
+            }
+        }return false;
+    }
+    //Crea entre 3 y 10 edificios inteligentes con datos aleatorios o definidos
+    //Asigna ID único, nombre, ubicación (calle-avenida) y capacidad máxima diferente para cada uno
+    //Retorna boolean indicando si la creación fue exitosa
+
 
     /*
     buscarEdificio(String id){}

@@ -15,13 +15,7 @@ public class GestorRobots {
     public GestorRobots(){
         robots = new ArrayList<>();
     }
-
-    /*
-    crearRobotIndividual(String idProcesador, int nivelBateria){}
-    Crea un robot individual con ID único y nivel de batería específico
-    Asigna un conjunto aleatorio de tareas (no modificable después)
-    Retorna boolean indicando si la creación fue exitosa
-    */
+    
     public boolean crearRobotIndividual(String idProcesador, int nivelBateria) {
         // Verificar si ya existe un robot con ese ID
         if (buscarRobot(idProcesador) != null) {
