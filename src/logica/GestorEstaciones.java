@@ -1,10 +1,6 @@
 package logica;
 
-import modelo.Estacion;
-import modelo.EstadoEstacion;
-import modelo.Robot;
-import modelo.Dron;
-import modelo.RegistroRecarga;
+import modelo.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +12,19 @@ public class GestorEstaciones {
         estaciones = new ArrayList<>();
     }
 
-    /*
-    crearEstaciones(int cantidad){}
-    Crea entre 5 y 8 estaciones de energía con datos aleatorios o definidos
-    Asigna ID único, descripción, ubicación, capacidad máxima y estado inicial (disponible)
-    Retorna boolean indicando si la creación fue exitosa
-    */
+    public boolean crearEstaciones(String id, String nombre, String ubicacion, int capacidadAtencion, EstadoEstacion estado) {
+        for (Estacion estacion : estaciones) {
+            if (estacion.getId().equals(id)) {
+                System.out.println("Error: Ya existe un edificio con ID: " + id);
+                return false;
+            }
+        }
+
+        Estacion nuevaEstacion = new Estacion(id, nombre, ubicacion, capacidadAtencion, estado);
+        estaciones.add(nuevaEstacion);
+        System.out.println("Estacion creada exitosamente: " + nombre);
+        return true;
+    }
 
     /*
     buscarEstacion(String id){}

@@ -2,32 +2,84 @@ package logica;
 
 import modelo.Ciudadano;
 import modelo.Edificio;
+import modelo.Estacion;
 import modelo.Robot;
-
 import java.util.ArrayList;
 
 public class GestorCiudadanos {
     private ArrayList<Ciudadano> ciudadanos;
+    private GestorRobots gRobots;
 
-    public GestorCiudadanos(){
+    public GestorCiudadanos() {
         ciudadanos = new ArrayList<>();
+        gRobots = new GestorRobots();
     }
 
-    // Getters y Setters básicos
-    public ArrayList<Ciudadano> getCiudadanos() {
-        return new ArrayList<>(ciudadanos); // Devuelve copia para proteger la lista original
+    public boolean crearCiudadano(String id, String nombre, String edificioId) {
+        for (Ciudadano ciudadano : ciudadanos) {
+            if (ciudadano.getId().equals(id)) {
+                System.out.println("Error: Ya existe un ciudadano con el mismo ID: " + id);
+                return false;
+            }
+        }
+
+        Ciudadano nuevoCiudadano = new Ciudadano(id, nombre, edificioId);
+        ciudadanos.add(nuevoCiudadano);
+        System.out.println("Ciudadano creado: " + nombre + " " + " en edificio " + edificioId);
+        return true;
     }
 
-    public void setCiudadanos(ArrayList<Ciudadano> ciudadanos) {
-        this.ciudadanos = ciudadanos;
+    public boolean actualizarCiudadano(String id, String nuevoNombre, String nuevoEdificioId, String nuevoRobot) {
+        for (Ciudadano ciudadano : ciudadanos) {
+            if (ciudadano.getId().equals(id)) {
+                if (!ciudadano.getNombre().equals(nuevoNombre)) {
+                    ciudadano.setNombre(nuevoNombre);
+                } else if (!ciudadano.getEdificio().equals(nuevoEdificioId)) {
+                    ciudadano.setEdificio(nuevoEdificioId);
+                }
+                for (Robot robot : ciudadano.getRobotsAsistentes()) {
+                    if (!robot.getIdProcesador().equals(nuevoRobot)) {
+                        gRobots.crearRobotIndividual(nuevoRobot, 100);
+                        Robot botNuevo = gRobots.buscarRobot(nuevoRobot);
+                        ciudadano.agregarRobotAsistente(botNuevo);
+                        System.out.println("Robot " + nuevoRobot + " agregado al ciudadano " + id);
+                        break;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
+    public boolean eliminarCiudadano(String id) {
+        for (int i = 0; i < ciudadanos.size(); i++) {
+            Ciudadano ciudadano = ciudadanos.get(i);
+            if (ciudadano.getId().equals(id)) {
+                ciudadanos.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Ciudadano obtenerCiudadano(String id) {
+        // Buscar el ciudadano
+        for (Ciudadano ciudadano : ciudadanos) {
+            if (ciudadano.getId().equals(id)) {
+                return ciudadano;
+            }
+        }
+
+        System.out.println("Error: No se encontró un ciudadano con ID: " + id);
+        return null;
+    }
+}
     /*
     registrarCiudadano(String id, String nombre, Edificio edificio){}
     Registra un nuevo ciudadano en el sistema
     Verifica que el edificio tenga capacidad disponible
     Retorna boolean indicando si fue exitoso el registro
-
     */
 
     /*
@@ -135,4 +187,3 @@ public class GestorCiudadanos {
     Calcula la relación promedio de robots por ciudadano en el sistema
     Retorna double (totalRobots / totalCiudadanos)
     */
-}
