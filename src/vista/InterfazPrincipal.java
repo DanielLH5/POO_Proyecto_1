@@ -52,8 +52,23 @@ public class InterfazPrincipal extends JFrame {
         });
 
         // Botones para otros perfiles
-        JButton btnUsuario = new JButton("Perfil Usuario");
-        JButton btnInvitado = new JButton("Perfil Invitado");
+        JButton btnOperador = new JButton("Perfil Opertador");
+        btnOperador.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnOperador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirInterfazOperador();
+            }
+        });
+
+        JButton btnGeneral = new JButton("Perfil general");
+        btnGeneral.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnGeneral.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirInterfazGeneral();
+            }
+        });
 
         // Agregar botones
         panelBotones.add(btnAdmin);

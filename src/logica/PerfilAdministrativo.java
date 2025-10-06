@@ -24,7 +24,7 @@ public class PerfilAdministrativo {
     private ArrayList<String> eventos;
     private ArrayList<String> acciones;
 
-    public PerfilAdministrativo(){
+    public PerfilAdministrativo() {
         gDrones = new ArrayList<GestorDrones>();
         gCiudadanos = new ArrayList<GestorCiudadanos>();
         gEdificios = new GestorEdificios();
@@ -46,10 +46,10 @@ public class PerfilAdministrativo {
     }
 
 
-/**
- * Inicializa los eventos pre-registrados (Requerimiento 3)
- * Se ejecuta automáticamente en el constructor
- */
+    /**
+     * Inicializa los eventos pre-registrados (Requerimiento 3)
+     * Se ejecuta automáticamente en el constructor
+     */
     private void inicializarEventosPredefinidos() {
         eventos.clear();
         // Eventos pre-registrados según el requerimiento
@@ -66,10 +66,10 @@ public class PerfilAdministrativo {
         System.out.println("Eventos predefinidos inicializados: " + eventos.size() + " eventos");
     }
 
-/**
- * Inicializa las acciones pre-registradas (Requerimiento 4)
- * Se ejecuta automáticamente en el constructor
- */
+    /**
+     * Inicializa las acciones pre-registradas (Requerimiento 4)
+     * Se ejecuta automáticamente en el constructor
+     */
     private void inicializarAccionesPredefinidas() {
         acciones.clear();
 
@@ -90,7 +90,7 @@ public class PerfilAdministrativo {
     }
 
     // ===== CONFIGURACIÓN INICIAL DEL SISTEMA =====
-    public boolean crearEdificiosInteligentes(String id, String nombre, String ubicacion, int capacidad){
+    public boolean crearEdificiosInteligentes(String id, String nombre, String ubicacion, int capacidad) {
         return gEdificios.crearEdificios(id, nombre, ubicacion, capacidad);
     }
 
@@ -100,10 +100,11 @@ public class PerfilAdministrativo {
     }
 
 
-    public boolean crearEstacionesEnergia(String id, String descripcion, String ubicacion, int capacidad, String estadoStr){
+    public boolean crearEstacionesEnergia(String id, String descripcion, String ubicacion, int capacidad, String estadoStr) {
         EstadoEstacion estado = EstadoEstacion.valueOf(estadoStr);
         return gEstaciones.crearEstaciones(id, descripcion, ubicacion, capacidad, estado);
     }
+
     /*
     // ===== GESTIÓN DE ESTACIONES DE ENERGÍA =====
     actualizarEstadoEstacion(String idEstacion, EstadoEstacion nuevoEstado){}
@@ -132,6 +133,35 @@ public class PerfilAdministrativo {
     Retorna la lista de acciones asociadas a un evento específico
     Para que el Consejo de Inteligencia las utilice
     */
+
+    public boolean gestionarAsociacionEventoAccion(Evento evento, List<Accion> acciones) {
+        if (evento == null || acciones == null || acciones.isEmpty()) {
+            return false; // Cada evento debe tener al menos una acción
+        }
+        asociacionesEventoAccion.put(evento, new ArrayList<>(acciones));
+        return true;
+    }
+
+    public boolean agregarAsociacionEventoAccion(Evento evento, Accion accion) {
+        if (evento == null || accion == null) return false;
+
+        asociacionesEventoAccion.putIfAbsent(evento, new ArrayList<>());
+        return asociacionesEventoAccion.get(evento).add(accion);
+    }
+
+    public boolean eliminarAsociacionEventoAccion(Evento evento, Accion accion) {
+        if (evento == null || accion == null) return false;
+
+        List<Accion> acciones = asociacionesEventoAccion.get(evento);
+        if (acciones == null || acciones.size() <= 1) return false; // No puede quedar sin acciones
+
+        return acciones.remove(accion);
+    }
+
+    public List<Accion> obtenerAccionesParaEvento(Evento evento) {
+        return asociacionesEventoAccion.getOrDefault(evento, new ArrayList<>());
+    }
+}
 
     /*
     // ===== GESTIÓN DE REGLAS DEL SISTEMA (Requerimiento 6) =====
@@ -180,4 +210,3 @@ public class PerfilAdministrativo {
     Verifica que todos los eventos tengan al menos una acción asociada
     Retorna lista de eventos sin acciones asociadas (debe estar vacía)
     */
-}

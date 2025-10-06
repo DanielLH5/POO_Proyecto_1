@@ -119,6 +119,10 @@ public class PerfilOperativo {
     Retorna boolean indicando éxito
     */
 
+    public boolean generarDronesAutomaticamente(){
+                //poner para que llame a generarDrones de GestorDrones cuando esté Gestor listo
+    return true;
+    }
     /*
     // ===== SIMULACIÓN (Requerimiento 10) =====
     ejecutarSimulacion(){}

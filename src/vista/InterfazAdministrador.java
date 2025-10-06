@@ -233,7 +233,7 @@ public class InterfazAdministrador extends JFrame {
  */
 
     private void actualizarListaEdificios() {
-        // Este método se llamará cuando se entre al panel "Ver Edificios"
+        // Este metodo se llamará cuando se entre al panel "Ver Edificios"
         String lista = perfilAdmin.obtenerListaEdificios();
 
         // Buscar el JTextArea en el panel actual

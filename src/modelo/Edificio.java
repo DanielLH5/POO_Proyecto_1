@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import modelo.Dron;
 
 public class Edificio {
     //Atributos
@@ -10,6 +11,7 @@ public class Edificio {
     private String ubicacion;
     private int capacidadMaxima;
     private List<Ciudadano> residentes;
+    private List<Dron> dronesAsignados;
 
     //Constructor
     public Edificio(String id, String nombre, String ubicacion, int capacidadMaxima) {
@@ -59,6 +61,31 @@ public class Edificio {
 
     public void setResidentes(List<Ciudadano> residentes) {
         this.residentes = residentes;
+    }
+
+    public boolean tieneDrones() {
+        return !dronesAsignados.isEmpty();
+    }
+
+    public int getCantidadDrones() {
+        return dronesAsignados.size();
+    }
+
+    public boolean tieneDron(String idDron) {
+        for (Dron dron : dronesAsignados) {
+            if (dron.getIdProcesador().equals(idDron)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean asignarDron(Dron dron) {
+        if (dron != null && !dronesAsignados.contains(dron)) {
+            dronesAsignados.add(dron);
+            return true;
+        }
+        return false;
     }
 
     //Métodos adicionales
