@@ -74,6 +74,42 @@ public class GestorCiudadanos {
         System.out.println("Error: No se encontró un ciudadano con ID: " + id);
         return null;
     }
+
+    public boolean removerRobotDeCiudadano(String idCiudadano, String idRobot) {
+        Ciudadano ciudadano = obtenerCiudadano(idCiudadano);
+        if (ciudadano == null) {
+            System.out.println("Error: No existe el ciudadano con ID: " + idCiudadano);
+            return false;
+        }
+
+        // Remover el robot del ciudadano
+        boolean removido = ciudadano.removerRobotAsistente(idRobot);
+        if (removido) {
+            System.out.println("✓ Robot " + idRobot + " removido del ciudadano " + idCiudadano);
+        } else {
+            System.out.println("Error: El ciudadano " + idCiudadano + " no tiene el robot " + idRobot);
+        }
+
+        return removido;
+    }
+
+    public String buscarCiudadanoConRobot(String idRobot) {
+        if (idRobot == null || idRobot.trim().isEmpty()) {
+            System.out.println("Error: El ID del robot no puede estar vacío");
+            return null;
+        }
+
+        for (Ciudadano ciudadano : ciudadanos) {
+            if (ciudadano.tieneRobot(idRobot)) {
+                System.out.println("✓ Robot " + idRobot + " encontrado en el ciudadano: " +
+                        ciudadano.getNombre() + " (" + ciudadano.getId() + ")");
+                return ciudadano.getId();
+            }
+        }
+
+        System.out.println("El robot " + idRobot + " no está asignado a ningún ciudadano");
+        return null;
+    }
 }
     /*
     registrarCiudadano(String id, String nombre, Edificio edificio){}

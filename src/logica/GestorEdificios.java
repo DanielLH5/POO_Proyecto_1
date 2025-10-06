@@ -6,6 +6,7 @@ import modelo.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GestorEdificios {
     private ArrayList<Edificio> edificios;
@@ -25,6 +26,39 @@ public class GestorEdificios {
         Edificio nuevoEdificio = new Edificio(id, nombre, ubicacion, capacidad);
         edificios.add(nuevoEdificio);
         System.out.println("Edificio creado exitosamente: " + nombre);
+        return true;
+    }
+
+    public boolean crearEdificiosBloque(int cantidad) {
+        if (cantidad <= 0) {
+            System.out.println("Error: La cantidad debe ser mayor a 0");
+            return false;
+        }
+
+        Random random = new Random();
+        int creadosExitosamente = 0;
+        int numeroBase = edificios.size() + 1;
+
+        for (int i = 0; i < cantidad; i++) {
+            String idEdificio = "EDI" + String.format("%04d", numeroBase + i);
+            String nombreEdificio = "Edificio " + (numeroBase + i);
+
+            String tipoCalle = (i % 2 == 0) ? "Calle" : "Avenida";
+            String ubicacionEdificio = tipoCalle + " " + (numeroBase + i);
+
+            int capacidadEdificio = 100 + random.nextInt(401); // Capacidad entre 100 y 500
+
+            Edificio nuevoEdificio = new Edificio(idEdificio, nombreEdificio, ubicacionEdificio, capacidadEdificio);
+            edificios.add(nuevoEdificio);
+            creadosExitosamente++;
+
+            System.out.println("✓ " + nombreEdificio +
+                    " | ID: " + idEdificio +
+                    " | Capacidad: " + capacidadEdificio +
+                    " | Ubicación: " + ubicacionEdificio);
+        }
+
+        System.out.println("\nResumen: " + creadosExitosamente + " edificios creados exitosamente");
         return true;
     }
 

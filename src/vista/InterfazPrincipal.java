@@ -1,6 +1,8 @@
 package vista;
 
 import logica.PerfilAdministrativo;
+import logica.PerfilGeneral;
+import logica.PerfilOperativo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +11,13 @@ import java.awt.event.ActionListener;
 
 public class InterfazPrincipal extends JFrame {
     private PerfilAdministrativo perfilAdmin;
+    private PerfilOperativo perfilOperador;
+    private PerfilGeneral perfilGeneral;
 
     public InterfazPrincipal() {
         perfilAdmin = new PerfilAdministrativo();
+        perfilOperador = new PerfilOperativo();
+        perfilGeneral = new PerfilGeneral();
         configurarVentanaPrincipal();
     }
 
@@ -51,8 +57,8 @@ public class InterfazPrincipal extends JFrame {
 
         // Agregar botones
         panelBotones.add(btnAdmin);
-        panelBotones.add(btnUsuario);
-        panelBotones.add(btnInvitado);
+        panelBotones.add(btnOperador);
+        panelBotones.add(btnGeneral);
 
         panelPrincipal.add(titulo, BorderLayout.NORTH);
         panelPrincipal.add(panelBotones, BorderLayout.CENTER);
@@ -61,5 +67,13 @@ public class InterfazPrincipal extends JFrame {
 
     private void abrirInterfazAdministrador() {
         new InterfazAdministrador(perfilAdmin).setVisible(true);
+    }
+
+    private void abrirInterfazOperador() {
+        new InterfazOperador(perfilOperador).setVisible(true);
+    }
+
+    private void abrirInterfazGeneral() {
+        new InterfazGeneral(perfilGeneral).setVisible(true);
     }
 }

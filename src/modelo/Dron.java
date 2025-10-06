@@ -12,11 +12,13 @@ public class Dron {
     private int nivelBateria;
     private boolean enAlerta;
     private List<ReporteAnomalia> historialReportes;
+    private String idEdificio;
     private boolean enPatrullaje;
 
     // Constructor
     public Dron(String idProcesador) {
         this.idProcesador = idProcesador;
+        this.idEdificio = idEdificio;
         Random random = new Random();
         this.horasVueloDisponible = 1 + random.nextInt(4); // 1-4 horas aleatorias
         this.nivelBateria = this.horasVueloDisponible * 25; // 25% por hora de vuelo

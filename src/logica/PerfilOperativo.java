@@ -1,25 +1,25 @@
 package logica;
 
 import modelo.Ciudadano;
+import modelo.Dron;
 import modelo.Edificio;
+import modelo.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PerfilOperativo {
-    private List<GestorDrones> gDrones;
+    private GestorDrones gDrones;
     private GestorCiudadanos gCiudadanos;
     private GestorEdificios gEdificios;
-    private List<GestorRobots> gRobots;
-    private List<GestorEstaciones> gEstaciones;
+    private GestorRobots gRobots;
 
     public PerfilOperativo() {
 
         gCiudadanos = new GestorCiudadanos();
         gEdificios = new GestorEdificios();
-        gDrones = new ArrayList<GestorDrones>();
-        gRobots = new ArrayList<GestorRobots>();
-        gEstaciones = new ArrayList<GestorEstaciones>();
+        gDrones = new GestorDrones();
+        gRobots = new GestorRobots();
     }
 
     //CRUD Ciudadanos
@@ -55,6 +55,41 @@ public class PerfilOperativo {
         modelo.Ciudadano ciudadano = gCiudadanos.obtenerCiudadano(id);
         return ciudadano != null ? ciudadano.toString() : "Ciudadano no encontrado";
     }
+
+    //CRUD Robots
+    public boolean crearRobot(String idRobot, int bateria) {
+        return gRobots.crearRobotIndividual(idRobot, bateria);
+    }
+
+    public boolean actualizarRobot(String idRobot, int nuevaBateria) {
+        return gRobots.actualizarBateriaRobot(idRobot, nuevaBateria);
+    }
+
+    public boolean eliminarRobot(String idRobot) {
+        Robot robot = gRobots.buscarRobot(idRobot);
+        String idCiudadano = gCiudadanos.buscarCiudadanoConRobot(idRobot);
+        return gCiudadanos.removerRobotDeCiudadano(idCiudadano, idRobot);
+    }
+
+    public String obtenerRobot(String id) {
+        Robot robot = gRobots.buscarRobot(id);
+        return robot != null ? robot.toString() : "Robot no encontrado";
+    }
+
+    //CRUD Dron
+    public boolean crearDron(String idRobot, int bateria) {
+        return gRobots.crearRobotIndividual(idRobot, bateria);
+    }
+
+    public boolean actualizarDron(String idRobot, String nuevoEdificio) {
+        return true;
+    }
+
+    public String obtener(String id) {
+        Dron dron = gDrones.buscarDron(id);
+        return dron != null ? dron.toString() : "Dron no encontrado";
+    }
+
 
 
     /*

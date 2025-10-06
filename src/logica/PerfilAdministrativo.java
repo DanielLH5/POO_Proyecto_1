@@ -52,7 +52,6 @@ public class PerfilAdministrativo {
  */
     private void inicializarEventosPredefinidos() {
         eventos.clear();
-
         // Eventos pre-registrados según el requerimiento
         eventos.add("Colisión vehicular");
         eventos.add("Congestión vehicular");

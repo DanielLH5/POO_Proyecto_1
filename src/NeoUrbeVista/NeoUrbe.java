@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.List;
 
 /** UI base de Neo-Urbe (independiente del .form) */
-public class NeoUrbe {
+public class    NeoUrbe {
     // layout base
     private JPanel rootPanel;
     private JPanel navContainer;

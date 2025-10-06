@@ -60,10 +60,33 @@ public class Ciudadano {
         return true;
     }
 
-    //Metodo para eliminar un robot asistente
-    public boolean eliminarRobotAsistente(Robot robot) {
-        return this.robotsAsistentes.remove(robot);
+    public boolean removerRobotAsistente(String idRobot) {
+        for (int i = 0; i < robotsAsistentes.size(); i++) {
+            Robot robot = robotsAsistentes.get(i);
+            if (robot.getIdProcesador().equals(idRobot)) {
+                robotsAsistentes.remove(i);
+                System.out.println("✓ Robot " + idRobot + " removido del ciudadano " + this.nombre);
+                return true;
+            }
+        }
+
+        System.out.println("Error: El ciudadano " + this.nombre + " no tiene asignado el robot " + idRobot);
+        return false;
     }
+
+    public boolean tieneRobot(String idRobot) {
+        if (idRobot == null || idRobot.trim().isEmpty()) {
+            return false;
+        }
+
+        for (Robot robot : robotsAsistentes) {
+            if (robot.getIdProcesador().equals(idRobot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /*
     tieneRobots(){}

@@ -102,12 +102,6 @@ public class GestorRobots {
         return true;
     }
 
-    /*
-    eliminarRobot(String idProcesador){}
-    Elimina un robot del sistema
-    Verifica que el robot no esté asignado a ningún ciudadano
-    Retorna boolean indicando si fue exitosa la eliminación
-    */
 
     /*
     asignarTareaRobot(String idProcesador, TareaRobot tarea){}
